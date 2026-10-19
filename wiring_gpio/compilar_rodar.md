@@ -11,8 +11,8 @@
 ## Compile seu programa
 
 1. Comando para fazer o .exe com o nome **myprog**.
-   > gcc –o myprog **hello_world.c**
+   > gcc –o myprog **hello_world.c** (-lwiringPi) caso tenha a biblioteca
 2. Rode **myprog** com a linha de comando:
-   > ./myprog ou sudo ./myprog
+   > ./myprog ou sudo ./myprog 
 3. Print no terminal
    > Hello World in terminal!

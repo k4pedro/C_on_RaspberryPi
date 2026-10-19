@@ -23,7 +23,7 @@ int main (void)
 
         if (digitalRead(17) == 0)
         {
-            print("1\n");
+            printf("1\n");
         }else{
             printf("0\n");
         }
