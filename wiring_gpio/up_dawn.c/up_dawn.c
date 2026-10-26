@@ -36,8 +36,8 @@ int main(void)
        "\t 1 - DETECÇÃO DE SUBIDAS E DESCIDAS\n"
        "\t 2 - sair\n\n"
     );
-
-    scanf("\tDigite a acao:%d", &comando);
+    printf("\tDigite a acao: ");
+    scanf("%d", &comando);
 
     switch (comando)
         {
