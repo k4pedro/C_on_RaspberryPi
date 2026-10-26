@@ -42,6 +42,10 @@ int main(void)
     switch (comando)
         {
             case 1:
+                tempo_evento = time(NULL);
+                zero_para_um = 0;
+                um_para_zero = 0;
+
                 while (1)
                 {
                     time_t tempo_atual = time(NULL);
@@ -95,7 +99,7 @@ int main(void)
         break;
     }
 
-   } (comando !=2);
+   } while(comando !=2);
     delay(200);
 
     return 0;
