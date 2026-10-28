@@ -4,6 +4,7 @@
 
 #define TIME_OUT 20
 
+//Polling (sondagem contínua) 
 int main(void)
 {
     time_t tempo_evento = time(NULL);
@@ -27,79 +28,76 @@ int main(void)
 
     int comando;
 
-    do{
+    do
+    {   
+        printf("\nVerificação do estado de subidas e descidas em %d segundos\n", TIME_OUT);
+        printf("\t--COMANDO--\n"
+               "\t 1 - DETECÇÃO DE SUBIDAS E DESCIDAS\n"
+               "\t 2 - sair\n\n");
+        printf("\tDigite a acao: ");
+        scanf("%d", &comando);
 
-
-  
-    printf("\nVerificação do estado de subidas e descidas em %d segundos\n", TIME_OUT);
-    printf("\t--COMANDO--\n"
-       "\t 1 - DETECÇÃO DE SUBIDAS E DESCIDAS\n"
-       "\t 2 - sair\n\n"
-    );
-    printf("\tDigite a acao: ");
-    scanf("%d", &comando);
-
-    switch (comando)
+        switch (comando)
         {
-            case 1:
-                tempo_evento = time(NULL);
-                zero_para_um = 0;
-                um_para_zero = 0;
+        case 1:
+            tempo_evento = time(NULL);
+            zero_para_um = 0;
+            um_para_zero = 0;
 
-                while (1)
+            while (1)
+            {
+                time_t tempo_atual = time(NULL);
+
+                if ((tempo_atual - tempo_evento) > TIME_OUT)
                 {
-                    time_t tempo_atual = time(NULL);
+                    printf("[TIME OUT]: nenhuma acao nos ultimos %d segundos\n", TIME_OUT);
 
-                    if ((tempo_atual - tempo_evento) > TIME_OUT)
-                    {
-                        printf("[TIME OUT]: nenhuma acao nos ultimos %d segundos\n", TIME_OUT);
-
-                        break;
-                    }
-
-                    int estado_atual = digitalRead(17);
-
-                    if (estado_atual != estado_anterior)
-                    {
-                        tempo_evento = time(NULL);
-
-                        if (estado_anterior == 0 && estado_atual == 1)
-                        {
-                            zero_para_um++;
-                            printf("\t\nSubida detectada as %s\n", ctime(&tempo_evento));
-                        }
-                        else if (estado_anterior == 1 && estado_atual == 0)
-                        {
-                            um_para_zero++;
-                            printf("\t\nDescida detectada as %s\n", ctime(&tempo_evento));
-                        }
-
-                        estado_anterior = estado_atual;
-                    }
-
-                    else
-                    {
-                        printf("\t[Nenhuma mudanca detectada]\n");
-                        delay(5000);
-                    }
-
-                    delay(200);
+                    break;
                 }
-                printf("\nResultados:\n");
-                printf("Subidas: %d\n", zero_para_um);
-                printf("Descidas: %d\n", um_para_zero);
-                break;
-           
+
+                int estado_atual = digitalRead(17);
+
+                if (estado_atual != estado_anterior)
+                {
+                    tempo_evento = time(NULL);
+
+                    if (estado_anterior == 0 && estado_atual == 1)
+                    {
+                        zero_para_um++;
+                        printf("\t\nSubida detectada as %s\n", ctime(&tempo_evento));
+                    }
+                    else if (estado_anterior == 1 && estado_atual == 0)
+                    {
+                        um_para_zero++;
+                        printf("\t\nDescida detectada as %s\n", ctime(&tempo_evento));
+                    }
+
+                    estado_anterior = estado_atual;
+                }
+
+                else
+                {
+                    printf("\t[Nenhuma mudanca detectada]\n");
+                    delay(5000);
+                }
+
+                delay(200);
+            }
+            printf("\nResultados:\n");
+            printf("Subidas: %d\n", zero_para_um);
+            printf("Descidas: %d\n", um_para_zero);
+            break;
+
         case 2:
-        printf("\nEncerrando programa\n");
-        break;
+            printf("\nEncerrando programa\n");
+            break;
 
         default:
-        printf("\nComando invalido.\n");
-        break;
-    }
+            printf("\nComando invalido.\n");
+            break;
+        }
 
-   } while(comando !=2);
+    } while (comando != 2);
     delay(200);
 
     return 0;
