@@ -15,25 +15,22 @@ volatile bool evento_ocorreu = false;
 void interrupcao(void)
 {
     int estado_atual = digitalRead(PIN_IN);
-    timet_t tempo_atual = time(NULL);
+    time_t tempo_atual = time(NULL);
 
     if (estado_atual != ultimo_estado)
     {
-        tempo_evento = time(NULL);
-
         if (ultimo_estado == 0 && estado_atual == 1)
         {
             zero_para_um++;
             digitalWrite(PIN_IN, HIGH);
-            printf("\t\nSubida detectada as %s\n", ctime(&tempo_evento));
+            printf("\t\nSubida na porta: %d detectada as %s\n", PIN_IN, ctime(&tempo_atual));
         }
         else if (ultimo_estado == 1 && estado_atual == 0)
         {
             um_para_zero++;
             digitalWrite(PIN_OUT, LOW);
-            printf("\t\nDescida detectada as %s\n", ctime(&tempo_evento));
+            printf("\t\nDescida na porta: %d detectada as %s\n", PIN_OUT, ctime(&tempo_atual));
         }
-
         ultimo_estado = estado_atual;
         tempo_evento = tempo_atual;
         evento_ocorreu = true;
@@ -42,7 +39,6 @@ void interrupcao(void)
 
 int main(void)
 {
-
     if (wiringPiSetupGpio() == -1)
     {
         printf("Erro ao inicializar o wiringPi!\n");
@@ -57,7 +53,7 @@ int main(void)
 
     ultimo_estado = digitalRead(PIN_IN);
 
-    if (wiringPiISR(PIN_IN, INT_EDGE_BOTH, &trata_interrupcao) < 0)
+    if (wiringPiISR(PIN_IN, INT_EDGE_BOTH, &interrupcao) < 0)
     {
         printf("Erro ao configurar a interrupção no pino %d\n", PIN_IN);
         return 1;
@@ -92,8 +88,8 @@ int main(void)
             um_para_zero = 0;
             printf("\nContadores resetados para zero!\n");
             break;
-        
-        case 3: 
+
+        case 3:
             printf("\nEncerrando programa\n");
             break;
 
@@ -103,7 +99,7 @@ int main(void)
         }
 
     } while (comando != 3);
-    
+
     digitalWrite(PIN_OUT, LOW);
     return 0;
 }
