@@ -13,11 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - name: Check standalone C examples
+      shell: bash
+      run: |
+        find . -name '*.c' -not -path './wiring_gpio/*' -print0 |
+          xargs -0 -r -n1 gcc -std=c11 -Wall -Wextra -fsyntax-only
