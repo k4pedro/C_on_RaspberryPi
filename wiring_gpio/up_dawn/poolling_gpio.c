@@ -1,7 +1,7 @@
 #include <wiringPi.h>
 #include <stdio.h>
 #include <time.h>
- jdgnjdngjdnfsdnjf;;;;;;;
+
 #define TIME_OUT 20
 
 //Polling (sondagem contínua) 
