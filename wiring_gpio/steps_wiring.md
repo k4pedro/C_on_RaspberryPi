@@ -15,4 +15,9 @@
     >
     >./build
 
-3. Volte ao diretorio do programa **cd SEU-DIR**
+3. Volte ao diretorio do programa
+
+    >
+    >cd ..
+    >
+    >cd ~
