@@ -59,7 +59,10 @@ Z:\repositorios\BIO-OBSW
 > make
 > ./edc
 
-# 9. Testes GPIO em ambiente simulado
+# 9. Testes 
+### OBS: Testes do OBSW Geral
 
-> cd /mnt/z/repositorios/BIO-OBSW/OBSW
-> sh tests/run_gpio_tests.sh
+Na raiz do repositório, rode todos os testes:
+
+```bash
+make -C OBSW test
